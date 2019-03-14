@@ -1,0 +1,96 @@
+[
+    {
+        "id": "f81c3524.1d20e8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "6bba28e1.3cd7f8",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "858a73c2.a6403",
+        "type": "amqp-server",
+        "z": "",
+        "host": "hst-rabbit-mq",
+        "port": "5672",
+        "vhost": "",
+        "keepalive": "30",
+        "usetls": false,
+        "verifyservercert": true,
+        "usetopology": false,
+        "topology": "{\n\t\"exchanges\": [\n\t\t{\"name\": \"exchange1\", \"type\": \"direct\", \"options\": {\"durable\": false}},\n\t\t{\"name\": \"exchange2\"}\n\t],\n\t\"queues\": [\n\t\t{\"name\": \"queue1\", \"options\": {\"messageTtl\": 60000}},\n\t\t{\"name\": \"queue2\"}\n\t],\n\t\"bindings\": [\n\t\t{\"source\": \"exchange1\", \"queue\": \"queue1\", \"pattern\": \"debug\", \"args\": {}},\n\t\t{\"source\": \"exchange1\", \"exchange\": \"exchange2\", \"pattern\": \"error\"},\n\t\t{\"source\": \"exchange2\", \"queue\": \"queue2\"}\n\t]\n}"
+    },
+    {
+        "id": "91eb0c33.5f235",
+        "type": "twitter-credentials",
+        "z": "",
+        "screen_name": "rssarto"
+    },
+    {
+        "id": "4ad3c2c5.73fa4c",
+        "type": "amqp in",
+        "z": "6bba28e1.3cd7f8",
+        "name": "",
+        "topic": "",
+        "iotype": "4",
+        "ioname": "hot-jobs-queue",
+        "server": "858a73c2.a6403",
+        "x": 146,
+        "y": 61,
+        "wires": [
+            [
+                "c750ee1d.789ce"
+            ]
+        ]
+    },
+    {
+        "id": "71f93b85.6144d4",
+        "type": "amqp out",
+        "z": "f81c3524.1d20e8",
+        "name": "",
+        "routingkey": "new-job",
+        "iotype": "4",
+        "ioname": "hot-jobs-queue",
+        "server": "858a73c2.a6403",
+        "x": 446,
+        "y": 115,
+        "wires": []
+    },
+    {
+        "id": "c750ee1d.789ce",
+        "type": "debug",
+        "z": "6bba28e1.3cd7f8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 390,
+        "y": 59,
+        "wires": []
+    },
+    {
+        "id": "af84e724.a8c2e8",
+        "type": "twitter in",
+        "z": "f81c3524.1d20e8",
+        "twitter": "91eb0c33.5f235",
+        "tags": "java,developer",
+        "user": "false",
+        "name": "",
+        "inputs": 0,
+        "x": 147.5,
+        "y": 115,
+        "wires": [
+            [
+                "71f93b85.6144d4"
+            ]
+        ]
+    }
+]

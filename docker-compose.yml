@@ -6,6 +6,8 @@ services:
       - "1880:1880"
     networks: 
       - hot-jobs-network
+    volumes:
+      - ${NODE_RED_VOLUME_PATH}:/data
   rabbit-mq:
     image: "rabbitmq:3"
     networks: 
