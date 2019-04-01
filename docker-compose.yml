@@ -9,15 +9,13 @@ services:
     volumes:
       - ${NODE_RED_VOLUME_PATH}:/data
   rabbit-mq:
-    image: "rabbitmq:3"
+    image: "rabbitmq:3.6.6-management"
     networks: 
       hot-jobs-network:
         aliases: 
           - hst-rabbit-mq
-  rabbit-management-plugin:
-    image: "rabbitmq:3-management"
-    ports: 
-      - "${RABBITMQ_PORT}:${RABBITMQ_PORT}"
+    ports:
+      - ${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}
   mongo:
     image: "mongo"
     ports:
