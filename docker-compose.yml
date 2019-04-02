@@ -9,7 +9,7 @@ services:
     volumes:
       - ${NODE_RED_VOLUME_PATH}:/data
   rabbit-mq:
-    image: "rabbitmq:3.6.6-management"
+    image: "rabbitmq:management"
     networks: 
       hot-jobs-network:
         aliases: 
