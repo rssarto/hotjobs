@@ -51,7 +51,9 @@ services:
     ports:
       - "8080:8080"
     networks: 
-      - hot-jobs-network
+      hot-jobs-network:
+        aliases: 
+          - ${HOTJOBS_BACKEND_HOST}
     environment: 
       spring.data.mongodb.database: ${HOTJOBS_BACKEND_MONGODB_DATABASE}
       spring.data.mongodb.username: ${HOTJOBS_BACKEND_MONGODB_USERNAME}
