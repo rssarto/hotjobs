@@ -1,13 +1,13 @@
 version: "3"
 services:
   node-red:
-    image: "nodered/node-red-docker"
+    image: "rssarto/nodered-hotjobs:latest"
     ports:
       - "${NODE_RED_PORT}:${NODE_RED_PORT}"
     networks: 
       - hot-jobs-network
     volumes:
-      - ${NODE_RED_VOLUME_PATH}:/data
+      - ${NODE_RED_VOLUME_PATH}/data
   rabbit-mq:
     image: "rabbitmq:management"
     networks: 
@@ -29,6 +29,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    # command: mongo --host mongodb://admin:admin@localhost:27017 --eval "db.getSiblingDB('admin').getCollection('system.users').insertOne({'user':'post','db':'post','credentials':{'SCRAM-SHA-1':{'iterationCount':10000,'salt':'OZ6Y/KEuZ93gN0YsKChMvw==','storedKey':'LsKCbi7QpCPxSVrpaTUAkWZAxtU=','serverKey':'9FjSM6evY+0sWiKXVI4lfzC37Kg='},'SCRAM-SHA-256':{'iterationCount':15000,'salt':'YGsOorCxMy54WOqIMDATwXBc2A6qxxlwpVgwcA==','storedKey':'TYTjIjsxzs4ZO0Geo3AIWhyJ+obp0yHTiBucD9n69Oc=','serverKey':'ONyECLwerYSBul5tSmKaPyLiTrLPDDeiFi/Q8hL7Tu4='}},'roles':[{'role':'owner','db':'post'}]});"
   mongo-express:
     image: mongo-express
     restart: always
@@ -40,5 +41,22 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       ME_CONFIG_MONGODB_SERVER: ${MONGO_HOST}
+    # links: 
+    #   - mongo
+    # volumes:
+    #   - ./deployment_scripts:/deployment_scripts
+    # command: /deployment_scripts/add_user.sh
+  hotjobs-backend:
+    image: rssarto/hotjobs-backend
+    ports:
+      - "8080:8080"
+    networks: 
+      - hot-jobs-network
+    environment: 
+      spring.data.mongodb.database: ${HOTJOBS_BACKEND_MONGODB_DATABASE}
+      spring.data.mongodb.username: ${HOTJOBS_BACKEND_MONGODB_USERNAME}
+      spring.data.mongodb.password: ${HOTJOBS_BACKEND_MONGODB_PASSWORD}
+      spring.data.mongodb.host: ${HOTJOBS_BACKEND_MONGODB_HOST}
+      spring.data.mongodb.port: ${HOTJOBS_BACKEND_MONGODB_PORT}
 networks:
   hot-jobs-network:
