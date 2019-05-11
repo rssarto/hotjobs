@@ -8,6 +8,14 @@ services:
       - hot-jobs-network
     volumes:
       - ${NODE_RED_VOLUME_PATH}/data
+    environment: 
+      TWITTER_ID: ${NODE_RED_TWITTER_ID}
+      TWITTER_API_KEY: ${NODE_RED_TWITTER_API_KEY}
+      TWITTER_API_SECRET_KEY: ${NODE_RED_TWITTER_API_SECRET_KEY}
+      TWITTER_ACCESS_TOKEN: ${NODE_RED_TWITTER_ACCESS_TOKEN}
+      TWITTER_ACCESS_TOKEN_SECRET: ${NODE_RED_TWITTER_ACCESS_TOKEN_SECRET}
+      MONGODB_URL: ${NODE_RED_MONGODB_URL}
+      MONGODB_POST_COLLECTION: ${NODE_RED_MONGODB_POST_COLLECTION}
   rabbit-mq:
     image: "rabbitmq:management"
     networks: 
@@ -17,7 +25,7 @@ services:
     ports:
       - ${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}
   mongo:
-    image: "mongo"
+    image: "mongo:4.0"
     ports:
       - "${MONGO_PORT}:${MONGO_PORT}"
     networks:
