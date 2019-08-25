@@ -24,31 +24,31 @@ services:
           - hst-rabbit-mq
     ports:
       - ${RABBITMQ_MANAGEMENT_PORT}:${RABBITMQ_MANAGEMENT_PORT}
-  mongo:
-    image: "mongo:4.0"
-    ports:
-      - "${MONGO_PORT}:${MONGO_PORT}"
-    networks:
-      hot-jobs-network:
-        aliases: 
-          - ${MONGO_HOST}
-    volumes:
-      - ${MONGO_VOLUME_PATH}:/data
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-    # command: mongo --host mongodb://admin:admin@localhost:27017 --eval "db.getSiblingDB('admin').getCollection('system.users').insertOne({'user':'post','db':'post','credentials':{'SCRAM-SHA-1':{'iterationCount':10000,'salt':'OZ6Y/KEuZ93gN0YsKChMvw==','storedKey':'LsKCbi7QpCPxSVrpaTUAkWZAxtU=','serverKey':'9FjSM6evY+0sWiKXVI4lfzC37Kg='},'SCRAM-SHA-256':{'iterationCount':15000,'salt':'YGsOorCxMy54WOqIMDATwXBc2A6qxxlwpVgwcA==','storedKey':'TYTjIjsxzs4ZO0Geo3AIWhyJ+obp0yHTiBucD9n69Oc=','serverKey':'ONyECLwerYSBul5tSmKaPyLiTrLPDDeiFi/Q8hL7Tu4='}},'roles':[{'role':'owner','db':'post'}]});"
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
-    networks: 
-      - hot-jobs-network
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      ME_CONFIG_MONGODB_SERVER: ${MONGO_HOST}
+  # mongo:
+  #   image: "mongo:4.0"
+  #   ports:
+  #     - "${MONGO_PORT}:${MONGO_PORT}"
+  #   networks:
+  #     hot-jobs-network:
+  #       aliases: 
+  #         - ${MONGO_HOST}
+  #   volumes:
+  #     - ${MONGO_VOLUME_PATH}:/data
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  #   # command: mongo --host mongodb://admin:admin@localhost:27017 --eval "db.getSiblingDB('admin').getCollection('system.users').insertOne({'user':'post','db':'post','credentials':{'SCRAM-SHA-1':{'iterationCount':10000,'salt':'OZ6Y/KEuZ93gN0YsKChMvw==','storedKey':'LsKCbi7QpCPxSVrpaTUAkWZAxtU=','serverKey':'9FjSM6evY+0sWiKXVI4lfzC37Kg='},'SCRAM-SHA-256':{'iterationCount':15000,'salt':'YGsOorCxMy54WOqIMDATwXBc2A6qxxlwpVgwcA==','storedKey':'TYTjIjsxzs4ZO0Geo3AIWhyJ+obp0yHTiBucD9n69Oc=','serverKey':'ONyECLwerYSBul5tSmKaPyLiTrLPDDeiFi/Q8hL7Tu4='}},'roles':[{'role':'owner','db':'post'}]});"
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   ports:
+  #     - ${MONGO_EXPRESS_PORT}:${MONGO_EXPRESS_PORT}
+  #   networks: 
+  #     - hot-jobs-network
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  #     ME_CONFIG_MONGODB_SERVER: ${MONGO_HOST}
     # links: 
     #   - mongo
     # volumes:
@@ -64,9 +64,10 @@ services:
           - ${HOTJOBS_BACKEND_HOST}
     environment: 
       spring.data.mongodb.database: ${HOTJOBS_BACKEND_MONGODB_DATABASE}
-      spring.data.mongodb.username: ${HOTJOBS_BACKEND_MONGODB_USERNAME}
-      spring.data.mongodb.password: ${HOTJOBS_BACKEND_MONGODB_PASSWORD}
-      spring.data.mongodb.host: ${HOTJOBS_BACKEND_MONGODB_HOST}
-      spring.data.mongodb.port: ${HOTJOBS_BACKEND_MONGODB_PORT}
+      #spring.data.mongodb.username: ${HOTJOBS_BACKEND_MONGODB_USERNAME}
+      #spring.data.mongodb.password: ${HOTJOBS_BACKEND_MONGODB_PASSWORD}
+      #spring.data.mongodb.host: ${HOTJOBS_BACKEND_MONGODB_HOST}
+      #spring.data.mongodb.port: ${HOTJOBS_BACKEND_MONGODB_PORT}
+      spring.data.mongodb.url: ${HOTJOBS_BACKEND_MONGODB_URL}
 networks:
   hot-jobs-network:
